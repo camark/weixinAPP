@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/logs/logs",
-    "pages/form/form"
+    "pages/form/form",
+    "pages/image/image"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -17,8 +18,8 @@
         "text": "发起报障"
       },
       {
-        "pagePath": "pages/logs/logs",
-        "text": "历史报障"
+        "pagePath": "pages/image/image",
+        "text": "历史报障（test）"
       }
     ]
   }

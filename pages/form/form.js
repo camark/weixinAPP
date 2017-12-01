@@ -8,7 +8,9 @@ Page({
     serialNumber:'',
     model:'',
     rackPostion:'',
-    detail:''
+    detail:'',
+    imageList: [],
+    count:3
   },
 
   /**
@@ -70,5 +72,45 @@ Page({
    */
   onShareAppMessage: function () {
   
+  },
+  modelChange: function (e) {
+    this.setData({
+      model: e.detail.value
+    })
+  },
+  rackPostionChange: function (e) {
+    this.setData({
+      rackPostion: e.detail.value
+    })
+  },
+  detailChange: function (e) {
+    this.setData({
+      detail: e.detail.value
+    })
+  },
+
+  
+
+  chooseImage: function () {
+    var that = this
+    wx.chooseImage({
+      sourceType: ['camera', 'album'] ,
+      sizeType: ['compressed'],
+      count: this.data.count,
+      success: function (res) {
+        console.log(res)
+        that.setData({
+          imageList: res.tempFilePaths
+        })
+      }
+    })
+  },
+  previewImage: function (e) {
+    var current = e.target.dataset.src
+
+    wx.previewImage({
+      current: current,
+      urls: this.data.imageList
+    })
   }
 })

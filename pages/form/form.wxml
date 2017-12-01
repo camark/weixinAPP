@@ -1,15 +1,15 @@
 <!--form.wxml-->
 <!-- <text>form.wxml</text> -->
 
-<view class="page-head-title">{{'序列号：'+ serialNumber}}</view>
+<view class="weui-cells__title">{{'序列号：'+ serialNumber}}</view>
 
 <!-- <view class="weui-cells__title">设备型号</view>
 <input class="weui-input" auto-focus placeholder="{{model}}"/> -->
-<view class="page-section">
+<!-- <view class="page-section">
   <view class="weui-cells__title">设备型号</view>
   <view class="weui-cells weui-cells_after-title">
     <view class="weui-cell weui-cell_input">
-      <input class="weui-input" auto-focus placeholder="{{model}}"/>
+      <input class="weui-input" auto-focus placeholder="{{model}}" />
     </view>
   </view>
 </view>
@@ -18,23 +18,68 @@
   <view class="weui-cells__title">设备机架位置</view>
   <view class="weui-cells weui-cells_after-title">
     <view class="weui-cell weui-cell_input">
-      <input class="weui-input" auto-focus placeholder="{{rackPostion}}"/>
+      <input class="weui-input" auto-focus placeholder="{{rackPostion}}" />
+    </view>
+  </view>
+</view> -->
+
+
+<!-- <view class="weui-cells__title">{{model}}</view> -->
+<view class="weui-cell weui-cell_input">
+  <view class="weui-cell__hd">
+    <view class="weui-label">设备型号</view>
+  </view>
+  <view class="weui-cell__bd">
+    <input class="weui-input" bindinput="modelChange" auto-focus placeholder="{{model}}" />
+  </view>
+</view>
+
+<view class="weui-cell weui-cell_input">
+  <view class="weui-cell__hd">
+    <view class="weui-label">机架位置</view>
+  </view>
+  <view class="weui-cell__bd">
+    <input class="weui-input" bindinput="rackPostionChange" auto-focus placeholder="{{rackPostion}}" />
+  </view>
+</view>
+
+
+<view class="page-section">
+  <view class="weui-cells__title">故障细节描述</view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="textarea-wrp">
+      <textarea   bindinput="detailChange" placeholder="请输入故障描述" auto-height />
     </view>
   </view>
 </view>
 
 
 
-  <view class="page-section">
-    <view class="weui-cells__title">故障细节描述</view>
-    <view class="weui-cells weui-cells_after-title">
-        <view class="textarea-wrp">
-          <textarea bindblur="bindTextAreaBlur" auto-height />
+
+<view class="weui-cells">
+  <view class="weui-cell">
+    <view class="weui-cell__bd">
+      <view class="weui-uploader">
+        <view class="weui-uploader__hd">
+          <view class="weui-uploader__title">故障现场图片</view>
+          <view class="weui-uploader__info">{{imageList.length}}/{{count}}</view>
         </view>
+        <view class="weui-uploader__bd">
+          <view class="weui-uploader__files">
+            <block wx:for="{{imageList}}" wx:for-item="image">
+              <view class="weui-uploader__file">
+                <image class="weui-uploader__img" src="{{image}}" data-src="{{image}}" bindtap="previewImage"></image>
+              </view>
+            </block>
+          </view>
+          <view class="weui-uploader__input-box">
+            <view class="weui-uploader__input" bindtap="chooseImage"></view>
+          </view>
+        </view>
+      </view>
     </view>
   </view>
-
-
+</view>
 
 
 
@@ -42,10 +87,6 @@
 
 
 <view class="button-sp-area">
-<button type="primary">提交障碍申告</button>
-<button type="primary" plain="true">取消并返回</button>
+  <button type="primary">提交障碍申告</button>
+  <button type="primary" plain="true">取消并返回</button>
 </view>
-
-
-
-
