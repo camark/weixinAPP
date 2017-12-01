@@ -1,0 +1,51 @@
+<!--form.wxml-->
+<!-- <text>form.wxml</text> -->
+
+<view class="page-head-title">{{'序列号：'+ serialNumber}}</view>
+
+<!-- <view class="weui-cells__title">设备型号</view>
+<input class="weui-input" auto-focus placeholder="{{model}}"/> -->
+<view class="page-section">
+  <view class="weui-cells__title">设备型号</view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_input">
+      <input class="weui-input" auto-focus placeholder="{{model}}"/>
+    </view>
+  </view>
+</view>
+
+<view class="page-section">
+  <view class="weui-cells__title">设备机架位置</view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_input">
+      <input class="weui-input" auto-focus placeholder="{{rackPostion}}"/>
+    </view>
+  </view>
+</view>
+
+
+
+  <view class="page-section">
+    <view class="weui-cells__title">故障细节描述</view>
+    <view class="weui-cells weui-cells_after-title">
+        <view class="textarea-wrp">
+          <textarea bindblur="bindTextAreaBlur" auto-height />
+        </view>
+    </view>
+  </view>
+
+
+
+
+
+
+
+
+<view class="button-sp-area">
+<button type="primary">提交障碍申告</button>
+<button type="primary" plain="true">取消并返回</button>
+</view>
+
+
+
+
