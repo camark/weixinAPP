@@ -27,6 +27,7 @@ Page({
   },
   scanCode: function () {
     var that = this
+    var urlDevice = ''
     var urlData = ''
     wx.scanCode({
       success: function (res) {
@@ -34,6 +35,15 @@ Page({
           serialNumber: res.result
         })
         //向服务器发起一个request，上传serialNumber，返回model和rackPostion
+        wx.request({
+          url: 'http://192.168.123.119:8000/inspection/'+that.data.serialNumber+'/Device/',
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function (res) {
+            console.log(res.data)
+          }
+        })
         urlData = '/pages/form/form?serialNumber='+that.data.serialNumber+'&model=DL380&rackPostion=周家渡K6'
         wx.navigateTo({
           url: urlData

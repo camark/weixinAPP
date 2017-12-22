@@ -87,6 +87,6 @@
 
 
 <view class="button-sp-area">
-  <button type="primary">提交障碍申告</button>
+  <button type="primary" bindtap="createEvent">提交障碍申告</button>
   <button type="primary" plain="true">取消并返回</button>
 </view>

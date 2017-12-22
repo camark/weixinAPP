@@ -98,10 +98,13 @@ Page({
       sizeType: ['compressed'],
       count: this.data.count,
       success: function (res) {
-        console.log(res)
+        // console.log(res)
+        // console.log('res.tempFilePaths',res.tempFilePaths)
+        // console.log(res.tempFilePaths[0])
         that.setData({
           imageList: res.tempFilePaths
         })
+        console.log(that.data.imageList)
       }
     })
   },
@@ -112,5 +115,8 @@ Page({
       current: current,
       urls: this.data.imageList
     })
-  }
+  },
+  createEvent: function (e) {
+
+  },
 })
