@@ -5,12 +5,15 @@ Page({
    * 页面的初始数据
    */
   data: {
+    eventID:'',
     serialNumber:'',
     model:'',
     rackPostion:'',
     detail:'',
     imageList: [],
-    count:3
+    count:1,
+    Device:'',
+    description:''
   },
 
   /**
@@ -22,7 +25,6 @@ Page({
       model: options.model,
       rackPostion: options.rackPostion
     })
-    // console.log(model)
   },
 
   /**
@@ -89,21 +91,18 @@ Page({
     })
   },
 
-  
-
   chooseImage: function () {
     var that = this
+    //现在只选择一个照片
     wx.chooseImage({
       sourceType: ['camera', 'album'] ,
       sizeType: ['compressed'],
       count: this.data.count,
       success: function (res) {
-        // console.log(res)
-        // console.log('res.tempFilePaths',res.tempFilePaths)
-        // console.log(res.tempFilePaths[0])
         that.setData({
           imageList: res.tempFilePaths
         })
+        console.log(that.data.imageList[0])
         console.log(that.data.imageList)
       }
     })
@@ -117,6 +116,44 @@ Page({
     })
   },
   createEvent: function (e) {
-
+    var eventURL = 'http://192.168.123.119:8000/inspection/Event/'
+    var that = this
+// 第一步上传信息 创建并得到eventID
+    wx.request({
+      url: eventURL,
+      method: 'POST',
+      data: {
+        // serialNumber: that.data.serialNumber,
+        // model: that.data.model,
+        // rackPostion: that.data.rackPostion,
+        // detail: that.data.detail
+        description: 'abc',
+        Device: '456'
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res.data)
+        //把返回的EventID写到变量中
+        that.setData({
+          eventID: 'test001'
+        })
+        //Event创建完成后上传图片
+        // wx.uploadFile({
+        //   url: eventURL + this.data.eventID + '/', 
+        //   filePath: that.data.imageList[0],
+        //   name: 'imageOne',
+        //   formData: {
+        //     'EventID': 'test001'
+        //   },
+        //   success: function (res) {
+        //     console.log(res.data)
+        //     //do something
+        //   }
+        // })
+      }
+    })
+   
   },
 })

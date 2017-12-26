@@ -27,7 +27,8 @@ Page({
   },
   scanCode: function () {
     var that = this
-    var urlDevice = ''
+    // 后台URL：url(r'^Device/(?P<pk>[0-9]+)/$', views.getDevice, name = 'getDevice')
+    var urlDevice = 'http://192.168.123.119:8000/inspection/Device/'
     var urlData = ''
     wx.scanCode({
       success: function (res) {
@@ -36,18 +37,20 @@ Page({
         })
         //向服务器发起一个request，上传serialNumber，返回model和rackPostion
         wx.request({
-          url: 'http://192.168.123.119:8000/inspection/'+that.data.serialNumber+'/Device/',
+          url: urlDevice+that.data.serialNumber+'/',
           header: {
             'content-type': 'application/json' // 默认值
           },
+          //这里应该将返回的数据写到变量中
           success: function (res) {
-            console.log(res.data)
+            urlData = '/pages/form/form?serialNumber=' + that.data.serialNumber + 
+            '&model=' + res.data.model + '&rackPostion=' + res.data.IDCPostionName + res.data.rackPostion
+            wx.navigateTo({
+              url: urlData
+            })
           }
         })
-        urlData = '/pages/form/form?serialNumber='+that.data.serialNumber+'&model=DL380&rackPostion=周家渡K6'
-        wx.navigateTo({
-          url: urlData
-        })
+
       },
       fail: function (res) {
       }
