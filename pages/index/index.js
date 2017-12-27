@@ -28,7 +28,7 @@ Page({
   scanCode: function () {
     var that = this
     // 后台URL：url(r'^Device/(?P<pk>[0-9]+)/$', views.getDevice, name = 'getDevice')
-    var urlDevice = 'http://192.168.123.119:8000/inspection/Device/'
+    var urlDevice = 'http://127.0.0.1:8000/inspection/Device/'
     var urlData = ''
     wx.scanCode({
       success: function (res) {

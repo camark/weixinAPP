@@ -116,7 +116,7 @@ Page({
     })
   },
   createEvent: function (e) {
-    var eventURL = 'http://192.168.123.119:8000/inspection/Event/'
+    var eventURL = 'http://127.0.0.1:8000/inspection/Event/'
     var that = this
 // 第一步上传信息 创建并得到eventID
     wx.request({
@@ -127,31 +127,32 @@ Page({
         // model: that.data.model,
         // rackPostion: that.data.rackPostion,
         // detail: that.data.detail
-        description: 'abc',
-        Device: '456'
+        description: 'def123123',
+        Device: '1234567'
       },
       header: {
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        console.log(res.data)
+        // console.log(res.data)
+        // console.log(res.data.id)
         //把返回的EventID写到变量中
         that.setData({
-          eventID: 'test001'
+          eventID: res.data.id
         })
         //Event创建完成后上传图片
-        // wx.uploadFile({
-        //   url: eventURL + this.data.eventID + '/', 
-        //   filePath: that.data.imageList[0],
-        //   name: 'imageOne',
-        //   formData: {
-        //     'EventID': 'test001'
-        //   },
-        //   success: function (res) {
-        //     console.log(res.data)
-        //     //do something
-        //   }
-        // })
+        wx.uploadFile({
+          url: eventURL + that.data.eventID + '/', 
+          filePath: that.data.imageList[0],
+          name: 'imageOne',
+          // formData: {
+          //   'testData': 'test001'
+          // },
+          success: function (res) {
+            console.log(res.data)
+            //do something
+          }
+        })
       }
     })
    
