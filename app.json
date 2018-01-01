@@ -18,7 +18,7 @@
         "text": "发起报障"
       },
       {
-        "pagePath": "pages/image/image",
+        "pagePath": "pages/logs/logs",
         "text": "历史报障"
       }
     ]
