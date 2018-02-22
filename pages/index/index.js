@@ -1,5 +1,6 @@
 //index.js
 //获取应用实例
+// app.globalData.token
 var app = getApp()
 Page({
   data: {
@@ -10,7 +11,8 @@ Page({
   },
 
   onLoad: function () {
-    var that = this
+   
+    var that = this 
     //调用应用实例的方法获取全局数据，获取用户信息
     app.getUserInfo(function(userInfo){
       //更新数据
@@ -25,13 +27,17 @@ Page({
     var that = this
     // 后台URL：url(r'^Device/(?P<pk>[0-9]+)/$', views.getDevice, name = 'getDevice')
     // get设备数据，是url加一个序列号
-    var urlDevice = 'http://127.0.0.1:8000/inspection/Device/'
+    var urlDevice = 'https://wanshuxiao.top/inspection/Device/'
     // 跳转报账页面的URL（forms页面）
     var urlData = ''
 
     // 扫码获取序列号
     wx.scanCode({
       success: function (res) {
+        wx.showLoading({
+          title: "正在查询",
+        })
+        // console.log(app.globalData.token)
         that.setData({
           serialNumber: res.result
         })
@@ -40,10 +46,12 @@ Page({
           // 组成真正的URL
           url: urlDevice+that.data.serialNumber+'/',
           header: {
-            'content-type': 'application/json' // 默认值
+            'content-type': 'application/json' ,// 默认值
+            'token':app.globalData.token
           },
           //这里应该将返回的数据写到变量中
           success: function (res) {
+            wx.hideLoading()
             // 对于状态码200的OK返回，组装url进行跳转，对于非200，用showModa报错
             if (res.statusCode == '200'){        
               // 序列号  型号 机房 机架 报账微信的昵称
@@ -54,7 +62,7 @@ Page({
                 url: urlData
               })
             }else{
-              //  wx.showModal
+               //  wx.showModal
               wx.showModal({
                 title: '这个编号系统里没有',
                 content: '兄弟，也许你应该问问管理员这是怎么回事？状态码：' 
@@ -67,9 +75,10 @@ Page({
           },
           // 非200，用showModa报错
           fail: function (res) {
+            wx.hideLoading()
             wx.showModal({
               title: '服务器没了',
-              content: '兄弟，也许你的服务器被外星人劫持了',
+              content: '兄弟，也许你的服务器被外星人劫持了' + res,
               showCancel: false,
               success: function (res) {
               }

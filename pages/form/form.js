@@ -1,4 +1,5 @@
 // form.js
+var app = getApp()
 Page({
 
   /**
@@ -120,11 +121,15 @@ Page({
   },
   //点击提交，先创建事件然后上传图片
   createEvent: function (e) {
+    wx.showLoading({
+      title: "正在上传",
+    })
     //处理事件的URL，不跟ID默认就是创建
-    var eventURL = 'http://127.0.0.1:8000/inspection/Event/'
+    var eventURL = 'https://wanshuxiao.top/inspection/Event/'
     var that = this
     //处理成功后的返回操作,会在本地存储中记录这一事件的提交情况
     function reSInfo() {
+      wx.hideLoading()
       var logs = wx.getStorageSync('myLogs') || []
       logs.unshift(that.data.eventDate + '\n'
        + ' 编号：' + that.data.eventID + '   '  + that.data.rackPostion + '  ' + that.data.model)
@@ -155,11 +160,10 @@ Page({
         reportUserInfo: that.data.reportUserInfo
       },
       header: {
-        'content-type': 'application/json' // 默认值
+        'content-type': 'application/json', // 默认值
+        'token': app.globalData.token
       },
       success: function (res) {
-        // console.log(res.data)
-        // console.log(res.data.id)
         //把返回的EventID写到变量中
         that.setData({
           eventID: res.data.id,
@@ -167,16 +171,19 @@ Page({
         })
         //Event创建完成后上传图片
         if (that.data.imageList.length > 0 ){
-          // console.log(that.data.imageList.length > 0 )
-          // console.log(that.data.imageList !== [])
           wx.uploadFile({
             url: eventURL + that.data.eventID + '/',
             filePath: that.data.imageList[0],
             name: 'imageOne',
-            complete: function (res) {
+            header:{
+              'token': app.globalData.token
+            }
+            ,
+            success: function (res) {
               reSInfo()
             },
             fail: function (res) {
+              wx.hideLoading()
               wx.showModal({
                 title: '服务器出现问题了',
                 content: '事件编号：' + that.data.eventID + '。图片上传出错，兄弟打电话给管理员试试。',
@@ -187,10 +194,21 @@ Page({
             }
           })
         }else{
-          reSInfo()
+          // 上传一个信号，直接发送邮件
+          wx.request({
+            url: eventURL + that.data.eventID + '/',
+            method: 'POST',
+            header: {
+              'token': app.globalData.token
+            },
+             success: function (res) {
+              reSInfo()
+            }
+          })
         }
       },
       fail:function(res){
+        wx.hideLoading()
         wx.showModal({
           title: '服务器出现问题了',
           content: '创建事件就出错了。谁知道那头又出现什么状况了，兄弟打电话给管理员试试。',
@@ -200,7 +218,6 @@ Page({
         })
       }
     })
-   
   },
   backIndex:function(e){
     // console.log("backIndex")
@@ -208,5 +225,4 @@ Page({
       url: "../../pages/index/index"
     })
   },
-
 })

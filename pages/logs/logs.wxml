@@ -2,6 +2,7 @@
 <view class="container log-list">
   <block wx:for="{{logs}}" wx:for-item="log" wx:key="*this">
     <!-- <text class="log-item">{{index + 1}}. {{log}}</text> -->
-      <text class="log-item">{{log}}</text>
+      <text class="log-item">{{log}}</text> 
+      <button wx:if="{{log != '暂无日志'}}" type="primary" bindtap="makeAPhoneCall">打电话</button> 
   </block>
 </view>
